@@ -4,19 +4,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import store from "../store/Context";
 
 export default function Characters() {
-  const { responseData, noRequestYet } = store();
+  const { responseData } = store();
 
   return (
     <div className="row d-flex justify-content-center my-5">
-      {responseData.length === 0 && noRequestYet === true ? (
+      {responseData && responseData.length === 0 ? (
         <div className="row text-center my-5">
           <h3 style={{ color: "white" }}>
             Nothing matches your search request :/
           </h3>
         </div>
-      ) : null}
+      ) : ""}
 
-      {responseData.map((character) => (
+      {responseData ? responseData.map((character) => (
         <Card
           className="col-10 col-md-6 col-xl-3"
           style={{ backgroundColor: "black", margin: "4px", padding: "10px" }}
@@ -63,7 +63,7 @@ export default function Characters() {
             {/* <Button variant="primary">Go somewhere</Button> */}
           </Card.Body>
         </Card>
-      ))}
+      )) : ""}
     </div>
   );
 }

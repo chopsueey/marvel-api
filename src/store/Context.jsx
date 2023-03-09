@@ -8,13 +8,7 @@ const publicKey = "d9800deab3518a2f15d9a56455f66a6d";
 
 export function Context({ children }) {
   // variables
-  const [responseData, setResponseData] = useState([]);
-
-  // to later set to true and prevent showing the
-  // "Nothing matches your search request :/" in Characters.jsx
-  // from the beginning -> noRequestYet variable
-
-  const [noRequestYet, setNoRequestYet] = useState(false);
+  const [responseData, setResponseData] = useState(null);
 
   // const [offSet, setOffSet] = useState(0);
   const limit = 100;
@@ -38,7 +32,6 @@ export function Context({ children }) {
     const data = await response.json();
     console.log(data.data.results);
     setResponseData([...data.data.results]);
-    setNoRequestYet(true)
   }
 
   // function loadMoreHandler() {
@@ -47,7 +40,7 @@ export function Context({ children }) {
   // }
 
   // value
-  const sharedData = { searchHandler, responseData, noRequestYet };
+  const sharedData = { searchHandler, responseData };
 
   return (
     <InitialContext.Provider value={sharedData}>
