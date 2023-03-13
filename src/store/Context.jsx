@@ -1,10 +1,7 @@
 import md5 from "md5";
 import React, { createContext, useContext, useState } from "react";
-
+import { publicKey, privateKey } from "../../private/keys";
 const InitialContext = createContext();
-
-const privateKey = "de2a5052b9194d8d496633ba3235d930ab9db764";
-const publicKey = "d9800deab3518a2f15d9a56455f66a6d";
 
 export function Context({ children }) {
   // variables
@@ -12,6 +9,7 @@ export function Context({ children }) {
 
   // const [offSet, setOffSet] = useState(0);
   const limit = 100;
+
   //functions
   async function searchHandler(e) {
     e.preventDefault();
