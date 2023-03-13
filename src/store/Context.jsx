@@ -1,6 +1,8 @@
 import md5 from "md5";
 import React, { createContext, useContext, useState } from "react";
-import { publicKey, privateKey } from "../../private/keys";
+import { publicKey, privateKey } from "../../own/keys";
+
+
 const InitialContext = createContext();
 
 export function Context({ children }) {
