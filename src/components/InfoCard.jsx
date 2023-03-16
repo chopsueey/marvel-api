@@ -1,11 +1,37 @@
+import { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
+import Favourites from "../store/FavContext";
 
-export default function InfoCard(props) {
-  const { character } = props;
+export default function InfoCard({ character }) {
+  const { favourites, setFavourites } = Favourites();
+
+  // check if card is already in the favourite storage
+  // and toggle a true or false variable on component mount
+  const [isFav, setIsFav] = useState();
+
+  useEffect(() => {
+    if (favourites.length > 0) {
+      favourites.forEach((char) =>
+        char.id === character.id ? setIsFav(true) : ""
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("favourites", JSON.stringify(favourites));
+  }, [favourites]);
+
+  function favClickHandler() {
+    setFavourites((state) => [...state, character]);
+
+    setIsFav(true);
+
+    console.log(character);
+  }
 
   return (
     <Card
-      className="col-10 col-md-6 col-xl-3"
+      className="col-10 col-md-6 col-lg-5 col-xl-3"
       style={{ backgroundColor: "black", margin: "4px", padding: "10px" }}
     >
       <Card.Img
@@ -45,7 +71,11 @@ export default function InfoCard(props) {
               </li>
             ))}
         </div>
-        {/* <Button variant="primary">Go somewhere</Button> */}
+        {isFav ? (
+          <h3 style={{ color: "red" }}>Is your fav</h3>
+        ) : (
+          <Button onClick={favClickHandler}>fav</Button>
+        )}
       </Card.Body>
     </Card>
   );

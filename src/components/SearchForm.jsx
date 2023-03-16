@@ -1,16 +1,17 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
-import store from "../store/Context";
+import Store from "../store/GeneralContext";
 
 export default function SearchForm() {
-  const { searchHandler } = store();
+  const { searchHandler } = Store();
 
   return (
     <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Control type="text" placeholder="e.g. Doctor Strange" />
       </Form.Group>
-      <Button style={{backgroundColor: "#ec1d24", border: "none"}}
+      <Button
+        style={{ backgroundColor: "#ec1d24", border: "none" }}
         onClick={searchHandler}
         type="submit"
       >
