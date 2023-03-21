@@ -1,26 +1,34 @@
 import React from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Store from "../store/GeneralContext";
 
 export default function SearchForm() {
-  const { searchHandler } = Store();
+  const { searchHandler, onChangeHandler } = Store();
 
   return (
-    <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Control type="text" placeholder="e.g. Doctor Strange" />
-      </Form.Group>
-      <Button
-        style={{ backgroundColor: "#ec1d24", border: "none" }}
-        onClick={searchHandler}
-        type="submit"
-      >
-        Search
-      </Button>
-
-      {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group> */}
-    </Form>
+    <div className="container mt-5">
+      <section className="row d-flex justify-content-center">
+        <Form className="col-12 col-lg-8 my-2">
+          <Form.Group className="d-md-flex" controlId="searchForm">
+            <Form.Select onChange={onChangeHandler} aria-label="searchOption">
+              <option defaultValue="characters">characters</option>
+              <option value="comics">comics</option>
+              <option value="creators">creators</option>
+              <option value="events">events</option>
+              <option value="series">series</option>
+              {/* <option value="stories">stories</option> */}
+            </Form.Select>
+            <Form.Control type="text" placeholder="e.g. Spider-Man" />
+            <button
+              className="search-button"
+              onClick={searchHandler}
+              type="submit"
+            >
+              search
+            </button>
+          </Form.Group>
+        </Form>
+      </section>
+    </div>
   );
 }

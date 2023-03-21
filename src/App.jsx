@@ -1,52 +1,55 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import SearchForm from "./components/SearchForm";
-import Results from "./components/Results";
-import { useEffect } from "react";
-import Favourites from "./store/FavContext";
+import Home from "./pages/Home";
+import Favourites from "./pages/Favourites";
+import About from "./pages/About";
+import Details from "./pages/Details";
+import PageNotFound from "./pages/PageNotFound";
 import Store from "./store/GeneralContext";
-import Footer from "./components/Footer";
+import { useEffect } from "react";
+import Random from "./pages/Random";
+import FavouritesStore from "./store/FavContext";
 
 function App() {
-  const { isPending, error } = Store();
-  const { favourites, setFavourites } = Favourites();
+  const { searchCategory, setStartsWith } = Store();
+
+  const { setFavourites } = FavouritesStore();
+  const { setSearchCategory } = Store();
 
   useEffect(() => {
     const storedFavourites = localStorage.getItem("favourites");
     if (storedFavourites) {
       setFavourites(JSON.parse(storedFavourites));
-      console.log(JSON.parse(storedFavourites));
-      console.log(favourites);
+      //   console.log(JSON.parse(storedFavourites));
+      //   console.log(favourites);
     }
+
+    // to reset search category to characters, when user switches pages
+    setSearchCategory("characters");
   }, []);
 
+  useEffect(() => {
+    searchCategory === "comics" || searchCategory === "series"
+      ? setStartsWith("titleStartsWith")
+      : setStartsWith("nameStartsWith");
+  }, [searchCategory]);
+
   return (
-    <div className="App">
-      <Header />
-      <div className="container">
-        <section className="row d-flex justify-content-center">
-          <div className="col-8 col-lg-6 col-xl-4 my-2">
-            <SearchForm />
-          </div>
-        </section>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route  path="/" element={<Header />}>
+            <Route index element={<Home />} />
+            <Route path="/favourites" element={<Favourites />} />
+            {/* <Route path="/about" element={<About />} /> */}
+            <Route path="/random" element={<Random />} />
+            <Route path="/details/:id" element={<Details />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        </Routes>
       </div>
-      <div className="container">
-        <section className="row d-flex justify-content-center my-5">
-          {isPending && (
-            <h1 className="my-5 text-center" style={{ color: "white" }}>
-              Loading...
-            </h1>
-          )}
-          {error && (
-            <h3 className="my-5 text-center" style={{ color: "white" }}>
-              {error}
-            </h3>
-          )}
-          <Results />
-        </section>
-      </div>
-      <Footer/>
-    </div>
+    </BrowserRouter>
   );
 }
 

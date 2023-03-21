@@ -18,5 +18,5 @@ export function FavContext({ children }) {
   );
 }
 
-const Favourites = () => useContext(FavouriteContext);
-export default Favourites;
+const FavouritesStore = () => useContext(FavouriteContext);
+export default FavouritesStore;
